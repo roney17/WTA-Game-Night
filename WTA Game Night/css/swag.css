@@ -16,13 +16,13 @@ body{
 }
 .numba{
 	padding-top: 1%;
-	padding-left: 1%;
+	padding-left: 10%;
 	padding-bottom: 1%;
 }
 .title{
 	position: relative;
 	padding-top: 1.5%;
-	padding-left: 45%;
+	padding-left: 40%;
 	color: #02734A;
 	text-align: left;
 }
@@ -169,6 +169,7 @@ body{
 	height: 5em;
 }
 .foot{
+	padding-top: 2%;
 	height: 5em;
 	background-color: #222222;
 }
