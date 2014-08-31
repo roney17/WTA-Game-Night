@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+
+<script language="JavaScript">
+function display_secureform(pagename) {
+	myWindow = window.open(pagename, "Secure_Server", "toolbar=0,location=0,directories=0,status=1,menubar=0,scrollbars=1,resizable=yes,copyhistory=0,width=500,height=375");
+}
+function display_printform(pagename) {
+	myWindow = window.open(pagename, "Secure_Server", "toolbar=1,location=0,directories=0,status=1,menubar=1,scrollbars=1,resizable=yes,copyhistory=0,width=640,height=420");
+}
+function extLinkDisc(link){
+	alert("You are now leaving Rock Canyon Bank\'s website and are going to a website that is not operated by the bank. Rock Canyon Bank is not responsible for the content or availability of linked sites.  Please be advised that Rock Canyon Bank does not represent either the third party or you, the account holder, if you enter into a transaction. Further, the privacy and security policies of the linked site may differ from those practiced by the bank.");
+	window.open(link);
+}
+</script>
+
+
+<style type="text/css">
+.faderarticle {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	visibility: hidden;
+	display: block;
+	border: 0px;
+	width: 619px;
+	height: 257px;
+	overflow: hidden;
+	clip: rect(0, 619, 257, 0);
+}
+.faderbox {
+	position: relative;
+	display: block;
+	background: none;
+	border: 0px;
+	width: 619px;
+	height: 257px;
+}
+</style>
+
+<script type="text/javascript">
+
+// Fade interval in milliseconds
+// Make this larger if you experience performance issues
+Fadomatic.INTERVAL_MILLIS = 50;
+
+// Creates a fader
+// element - The element to fade
+// speed - The speed to fade at, from 0.0 to 100.0
+// initialOpacity (optional, default 100) - element's starting opacity, 0 to 100
+// minOpacity (optional, default 0) - element's minimum opacity, 0 to 100
+// maxOpacity (optional, default 0) - element's minimum opacity, 0 to 100
+function Fadomatic (element, rate, initialOpacity, minOpacity, maxOpacity) {
+  this._element = element;
+  this._intervalId = null;
+  this._rate = rate;
+  this._isFadeOut = true;
+
+  // Set initial opacity and bounds
+  // NB use 99 instead of 100 to avoid flicker at start of fade
+  this._minOpacity = 0;
+  this._maxOpacity = 99;
+  this._opacity = 99;
+
+  if (typeof minOpacity != 'undefined') {
+    if (minOpacity < 0) {
+      this._minOpacity = 0;
+    } else if (minOpacity > 99) {
+      this._minOpacity = 99;
+    } else {
+      this._minOpacity = minOpacity;
+    }
+  }
+
+  if (typeof maxOpacity != 'undefined') {
+    if (maxOpacity < 0) {
+      this._maxOpacity = 0;
+    } else if (maxOpacity > 99) {
+      this._maxOpacity = 99;
+    } else {
+      this._maxOpacity = maxOpacity;
+    }
+
+    if (this._maxOpacity < this._minOpacity) {
+      this._maxOpacity = this._minOpacity;
+    }
+  }
+  
+  if (typeof initialOpacity != 'undefined') {
+    if (initialOpacity > this._maxOpacity) {
+      this._opacity = this._maxOpacity;
+    } else if (initialOpacity < this._minOpacity) {
+      this._opacity = this._minOpacity;
+    } else {
+      this._opacity = initialOpacity;
+    }
+  }
+
+  // See if we're using W3C opacity, MSIE filter, or just
+  // toggling visiblity
+  if(typeof element.style.opacity != 'undefined') {
+
+    this._updateOpacity = this._updateOpacityW3c;
+
+  } else if(typeof element.style.filter != 'undefined') {
+
+    // If there's not an alpha filter on the element already,
+    // add one
+    if (element.style.filter.indexOf("alpha") == -1) {
+
+      // Attempt to preserve existing filters
+      var existingFilters="";
+      if (element.style.filter) {
+        existingFilters = element.style.filter+" ";
+      }
+      element.style.filter = existingFilters+"alpha(opacity="+this._opacity+")";
+    }
+
+    this._updateOpacity = this._updateOpacityMSIE;
+    
+  } else {
+
+    this._updateOpacity = this._updateVisibility;
+  }
+
+  this._updateOpacity();
+}
+
+// Initiates a fade out
+Fadomatic.prototype.fadeOut = function () {
+  this._isFadeOut = true;
+  this._beginFade();
+}
+
+// Initiates a fade in
+Fadomatic.prototype.fadeIn = function () {
+  this._isFadeOut = false;
+  this._beginFade();
+}
+
+// Makes the element completely opaque, stops any fade in progress
+Fadomatic.prototype.show = function () {
+  this.haltFade();
+  this._opacity = this._maxOpacity;
+  this._updateOpacity();
+}
+
+// Makes the element completely transparent, stops any fade in progress
+Fadomatic.prototype.hide = function () {
+  this.haltFade();
+  this._opacity = 0;
+  this._updateOpacity();
+}
+
+// Halts any fade in progress
+Fadomatic.prototype.haltFade = function () {
+
+  clearInterval(this._intervalId);
+}
+
+// Resumes a fade where it was halted
+Fadomatic.prototype.resumeFade = function () {
+
+  this._beginFade();
+}
+
+// Pseudo-private members
+
+Fadomatic.prototype._beginFade = function () {
+
+  this.haltFade();
+  var objref = this;
+  this._intervalId = setInterval(function() { objref._tickFade(); },Fadomatic.INTERVAL_MILLIS);
+}
+
+Fadomatic.prototype._tickFade = function () {
+
+  if (this._isFadeOut) {
+    this._opacity -= this._rate;
+    if (this._opacity < this._minOpacity) {
+      this._opacity = this._minOpacity;
+      this.haltFade();
+    }
+  } else {
+    this._opacity += this._rate;
+    if (this._opacity > this._maxOpacity ) {
+      this._opacity = this._maxOpacity;
+      this.haltFade();
+    }
+  }
+
+  this._updateOpacity();
+}
+
+Fadomatic.prototype._updateVisibility = function () {
+  
+  if (this._opacity > 0) {
+    this._element.style.visibility = 'visible';
+  } else {
+    this._element.style.visibility = 'hidden';
+  }
+}
+
+Fadomatic.prototype._updateOpacityW3c = function () {
+  
+  this._element.style.opacity = this._opacity/100;
+  this._updateVisibility();
+}
+
+Fadomatic.prototype._updateOpacityMSIE = function () {
+  
+  this._element.filters.alpha.opacity = this._opacity;
+  this._updateVisibility();
+}
+
+Fadomatic.prototype._updateOpacity = null;
+
+var count = -1;
+</script>
+
+<script type="text/javascript">
+function getObject(objectId) {
+    // cross-browser function to get an object's style object given its id
+    if(document.getElementById && document.getElementById(objectId)) {
+	// W3C DOM
+	return document.getElementById(objectId);
+    } else if (document.all && document.all(objectId)) {
+	// MSIE 4 DOM
+	return document.all(objectId);
+    } else if (document.layers && document.layers[objectId]) {
+	// NN 4 DOM.. note: this won't find nested layers
+	return document.layers[objectId];
+    } else {
+	return false;
+    }
+} // getObject
+
+var frame = 0;
+var faders = new Array();
+function init() {
+	if(count>0) {
+		for(i=0;i<count;i++) {
+			var id = "faderarticle" + Math.floor(i);
+			var someElement = getObject(id);
+			if(someElement) {
+				var fader = new Fadomatic(someElement, 5, 0);
+				faders[i] = fader;
+			} else {
+				alert(id);
+			}
+		}
+		var firstframe = faders[frame];
+		firstframe.fadeIn();
+		setTimeout("nextFrame()", 5000);
+	}
+}
+
+function nextFrame() {
+	var prevframe = faders[frame];
+	frame++;
+	if(frame>=count) {
+		frame = 0;
+	}
+	var nextframe = faders[frame];
+	prevframe.fadeOut();
+	nextframe.fadeIn();
+	setTimeout("nextFrame()", 5000);
+}
+</script>
+
+ 
+
+<html>
+<head>
+	<title>Rock Canyon Bank</title> 
+	<meta name="GENERATOR" content="Rock Canyon Bank">
+	<meta name="KEYWORDS" content="rock canyon bank,rock canyon,on-line banking,online banking,PC banking,bank from home,home banking,bank in utah,banks in utah,banking in utah,utah banks,community Bank, local bank, bank, banks, banking, banking center, local banking, local bank, loans, loan, personal loans, business loan, business loans, commercial loans, commercial loan, deposits, deposit account, personal banking, business banking, commercial banking, cds, certificate of deposit, iras, wires, wire transfer, savings account, savings accounts, savings, business savings, checking, checking account, checking accounts, home mortgage, debit card, credit card, credit cards, mobile banking">
+    <meta name="description" content="Rock Canyon Bank" >
+	    <link rel="shortcut icon" href="../images/favicon.ico"/>
+		
+	<link rel="stylesheet" href="../styles.css" />
+    <script>
+	function openWin()
+{
+myWindow=window.open('http://staging166.cavionplus.com/passwordInfo.htm','','width=400,height=400')
+//myWindow.document.write("<p>Our login process has changed.  ...</p>")
+myWindow.focus()
+}
+</script>
+	<script language="JavaScript" type="text/JavaScript">
+<!--
+function MM_preloadImages() { //v3.0
+  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+    if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+}
+
+function MM_swapImgRestore() { //v3.0
+  var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+}
+
+function MM_findObj(n, d) { //v4.01
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  if(!x && d.getElementById) x=d.getElementById(n); return x;
+}
+
+function MM_swapImage() { //v3.0
+  var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+   if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+}
+//-->
+</script>
+                    
+</head>
+<body>
+        <script type="text/javascript">
+function mmLoadMenus() {
+var LiteBgColor = "#FFFFFF";
+var BorderBgColor = "#444444";
+var menuBg = "#ffffff";
+var menuMainBg = "#ffffff";
+var fontSize = 10;
+var fontNormalColor = "#444444";
+var fontLinkedColor = "#ffffff";
+var hoverMenuBg = "#43a837";
+var borderWidth = 1;
+var iconSrc = "../images/arrows.gif";
+var fontFace = "Verdana, Arial, Helvetica, sans-serif";
+
+
+window.menu1246 = new Menu("Savings Calculators",150,20,fontFace,fontSize,fontNormalColor,fontLinkedColor,menuMainBg,hoverMenuBg,"left","middle",3,0,1000,0,0,true,true,true,0,true,true);menu1246.fontWeight="bold";menu1246.childMenuIcon=iconSrc;menu1246.menuBorder=borderWidth;menu1246.menuLiteBgColor=LiteBgColor;menu1246.menuBorderBgColor=BorderBgColor;menu1246.bgColor=menuBg;menu1246.hideOnMouseOut=true;menu1246.addMenuItem("Single Deposit","location='../single.htm';");menu1246.addMenuItem("Multiple Deposit","location='../multiple.htm';");window.menu1245 = new Menu("Mortgage Calculators",150,20,fontFace,fontSize,fontNormalColor,fontLinkedColor,menuMainBg,hoverMenuBg,"left","middle",3,0,1000,0,0,true,true,true,0,true,true);menu1245.fontWeight="bold";menu1245.childMenuIcon=iconSrc;menu1245.menuBorder=borderWidth;menu1245.menuLiteBgColor=LiteBgColor;menu1245.menuBorderBgColor=BorderBgColor;menu1245.bgColor=menuBg;menu1245.hideOnMouseOut=true;menu1245.addMenuItem("Bi-weekly","location='../biweekly.htm';");menu1245.addMenuItem("Refinance","location='../refinanc.htm';");menu1245.addMenuItem("Mortgage Calculator","location='../asp/mortgcalc.asp';");window.menu1244 = new Menu("Calculators",150,20,fontFace,fontSize,fontNormalColor,fontLinkedColor,menuMainBg,hoverMenuBg,"left","middle",3,0,1000,0,0,true,true,true,0,true,true);menu1244.fontWeight="bold";menu1244.childMenuIcon=iconSrc;menu1244.menuBorder=borderWidth;menu1244.menuLiteBgColor=LiteBgColor;menu1244.menuBorderBgColor=BorderBgColor;menu1244.bgColor=menuBg;menu1244.hideOnMouseOut=true;menu1244.addMenuItem(menu1246,"location='../savcalc.htm';");menu1244.addMenuItem(menu1245,"location='../mortgage.htm';");menu1244.addMenuItem("Calculator List","location='../listing.htm';");window.menu1198 = new Menu("Online Services",150,20,fontFace,fontSize,fontNormalColor,fontLinkedColor,menuMainBg,hoverMenuBg,"left","middle",3,0,1000,0,0,true,true,true,0,true,true);menu1198.fontWeight="bold";menu1198.childMenuIcon=iconSrc;menu1198.menuBorder=borderWidth;menu1198.menuLiteBgColor=LiteBgColor;menu1198.menuBorderBgColor=BorderBgColor;menu1198.bgColor=menuBg;menu1198.hideOnMouseOut=true;menu1198.addMenuItem("Personal Online Services","location='../asp/services/service_1_1.asp';");menu1198.addMenuItem("Business Online Services","location='../asp/services/service_1_2.asp';");menu1198.addMenuItem("Security","location='../asp/services/service_1_3.asp';");menu1198.addMenuItem(menu1244,"location='../calculat.htm';");
+
+window.menu1204 = new Menu("Personal Services",150,20,fontFace,fontSize,fontNormalColor,fontLinkedColor,menuMainBg,hoverMenuBg,"left","middle",3,0,1000,0,0,true,true,true,0,true,true);menu1204.fontWeight="bold";menu1204.childMenuIcon=iconSrc;menu1204.menuBorder=borderWidth;menu1204.menuLiteBgColor=LiteBgColor;menu1204.menuBorderBgColor=BorderBgColor;menu1204.bgColor=menuBg;menu1204.hideOnMouseOut=true;menu1204.addMenuItem("Checking","location='../asp/services/service_2_1.asp';");menu1204.addMenuItem("Savings &amp; CDs","location='../asp/services/service_2_2.asp';");menu1204.addMenuItem("Personal Money Market","location='../asp/services/service_2_3.asp';");menu1204.addMenuItem("IRA Accounts","location='../asp/services/service_2_4.asp';");menu1204.addMenuItem("Other Personal Services","location='../asp/services/service_2_5.asp';");
+
+window.menu1210 = new Menu("Business Services",150,20,fontFace,fontSize,fontNormalColor,fontLinkedColor,menuMainBg,hoverMenuBg,"left","middle",3,0,1000,0,0,true,true,true,0,true,true);menu1210.fontWeight="bold";menu1210.childMenuIcon=iconSrc;menu1210.menuBorder=borderWidth;menu1210.menuLiteBgColor=LiteBgColor;menu1210.menuBorderBgColor=BorderBgColor;menu1210.bgColor=menuBg;menu1210.hideOnMouseOut=true;menu1210.addMenuItem("Business Checking","location='../asp/services/service_3_1.asp';");menu1210.addMenuItem("Business Savings &amp; CDs","location='../asp/services/service_3_2.asp';");menu1210.addMenuItem("Business Money Market","location='../asp/services/service_3_3.asp';");menu1210.addMenuItem("Merchant Services","location='../asp/services/service_3_4.asp';");menu1210.addMenuItem("Other Business Services","location='../asp/services/service_3_5.asp';");
+
+window.menu1216 = new Menu("Lending Services",150,20,fontFace,fontSize,fontNormalColor,fontLinkedColor,menuMainBg,hoverMenuBg,"left","middle",3,0,1000,0,0,true,true,true,0,true,true);menu1216.fontWeight="bold";menu1216.childMenuIcon=iconSrc;menu1216.menuBorder=borderWidth;menu1216.menuLiteBgColor=LiteBgColor;menu1216.menuBorderBgColor=BorderBgColor;menu1216.bgColor=menuBg;menu1216.hideOnMouseOut=true;menu1216.addMenuItem("Personal Loans","location='../asp/services/service_4_1.asp';");menu1216.addMenuItem("Business Loans","location='../asp/services/service_4_2.asp';");menu1216.addMenuItem("Loan Calculator","location='../asp/loancalc.asp';");
+
+window.menu1168 = new Menu("Contact Us",150,20,fontFace,fontSize,fontNormalColor,fontLinkedColor,menuMainBg,hoverMenuBg,"left","middle",3,0,1000,0,0,true,true,true,0,true,true);menu1168.fontWeight="bold";menu1168.childMenuIcon=iconSrc;menu1168.menuBorder=borderWidth;menu1168.menuLiteBgColor=LiteBgColor;menu1168.menuBorderBgColor=BorderBgColor;menu1168.bgColor=menuBg;menu1168.hideOnMouseOut=true;menu1168.addMenuItem("Locations","location='../asp/location.asp';");menu1168.addMenuItem("About Us","location='../asp/community.asp';");menu1168.addMenuItem("Privacy Policy","location='../asp/privacy.asp';");
+
+window.menu1232 = new Menu("Mission Statement",150,20,fontFace,fontSize,fontNormalColor,fontLinkedColor,menuMainBg,hoverMenuBg,"left","middle",3,0,1000,0,0,true,true,true,0,true,true);menu1232.fontWeight="bold";menu1232.childMenuIcon=iconSrc;menu1232.menuBorder=borderWidth;menu1232.menuLiteBgColor=LiteBgColor;menu1232.menuBorderBgColor=BorderBgColor;menu1232.bgColor=menuBg;menu1232.hideOnMouseOut=true;menu1232.addMenuItem("Our History","location='../asp/history.asp';");window.menu1230 = new Menu("About Us",150,20,fontFace,fontSize,fontNormalColor,fontLinkedColor,menuMainBg,hoverMenuBg,"left","middle",3,0,1000,0,0,true,true,true,0,true,true);menu1230.fontWeight="bold";menu1230.childMenuIcon=iconSrc;menu1230.menuBorder=borderWidth;menu1230.menuLiteBgColor=LiteBgColor;menu1230.menuBorderBgColor=BorderBgColor;menu1230.bgColor=menuBg;menu1230.hideOnMouseOut=true;menu1230.addMenuItem(menu1232,"location='../asp/mission.asp';");menu1230.addMenuItem("Newsletter","location='../asp/newsletter.asp';");menu1230.addMenuItem("General_3","location='../asp/general_3.asp';");menu1230.addMenuItem("General_4","location='../asp/general_4.asp';");menu1230.addMenuItem("Fee Schedule","location='../asp/cufees.asp';");
+window.memnu = new Menu("place",170,20,fontFace,fontSize,fontNormalColor,fontLinkedColor,menuMainBg,hoverMenuBg,"left","middle",3,0,1000,0,0,true,true,true,0,true,true);
+  memnu.writeMenus();}
+</script>
+<script type="text/javascript" src="../mm_menu.js"></script>
+<script type="text/javascript">mmLoadMenus();</script>
+
+    <div id="siteWrapper">
+<div id="IEFixtocenter">
+<div id="RCheader">
+	<a href="../asp/home.asp"><img src="../images/RockCanyonLogo.png" width="161" height="94" class="logoImg" alt="rock canyon bank logo" /></a>
+	<form action="../asp/search.asp" method="get">
+		<input class="searchBox" type="text" name="qu" size="24" maxlength="60" border="0" value="Search our Site" onfocus="if(this.value=='Search our Site')this.value='';" onblur="if(this.value=='')this.value='Search our Site';">
+	</form>
+
+
+<!-- navigation start -->
+<div id="RCnav">
+	<div class="RCnavLinks">
+    	<!--Navigation Start --><script language="javascript">function nulllink(){}function loi_swapimgrestore() {  var i,x,a=document.loi_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.osrc;i++) x.src=x.osrc;}function loi_findObj(n, d) {var p,i,x;if(!d) d=document;if((p=n.indexOf("?"))>0&&parent.frames.length) {d=parent.frames[n.substring(p+1)].document;n=n.substring(0,p);}if(!(x=d[n])&&d.all) x=d.all[n];for (i=0; !x&&i<d.forms.length; i++) x=d.forms[i][n];for(i=0; !x&&d.layers&&i<d.layers.length; i++) x=loi_findObj(n,d.layers[i].document);return x;}function loi_swapimage() {var i,j=0,x,a=loi_swapimage.arguments;document.loi_sr=new Array;for(i=0; i<(a.length-2); i+=3){if ((x=loi_findObj(a[i]))!=null){document.loi_sr[j++]=x;if(!x.osrc) x.osrc=x.src;x.src=a[i+2];}}}function loi_preloadImages(img) {var a=new Image(); a.src=img; return a; }</script><a href="../asp/services/service_1.asp"  onMouseOver="loi_swapimage('image1198', '', '../images/1198h.png');MM_showMenu(window.menu1198,8,30,null,'image1198');" onMouseOut="loi_swapimgrestore();MM_startTimeout();"><img name="image1198" src="../images/1198n.png" border="0" alt="Online Services"></a><a href="../asp/services/service_2.asp"  onMouseOver="loi_swapimage('image1204', '', '../images/1204h.png');MM_showMenu(window.menu1204,8,30,null,'image1204');" onMouseOut="loi_swapimgrestore();MM_startTimeout();"><img name="image1204" src="../images/1204n.png" border="0" alt="Personal Services"></a><a href="../asp/services/service_3.asp"  onMouseOver="loi_swapimage('image1210', '', '../images/1210h.png');MM_showMenu(window.menu1210,8,30,null,'image1210');" onMouseOut="loi_swapimgrestore();MM_startTimeout();"><img name="image1210" src="../images/1210n.png" border="0" alt="Business Services"></a><a href="../asp/services/service_4.asp"  onMouseOver="loi_swapimage('image1216', '', '../images/1216h.png');MM_showMenu(window.menu1216,8,30,null,'image1216');" onMouseOut="loi_swapimgrestore();MM_startTimeout();"><img name="image1216" src="../images/1216n.png" border="0" alt="Lending Services"></a><a href="../asp/contact.asp"  onMouseOver="loi_swapimage('image1168', '', '../images/1168h.png');MM_showMenu(window.menu1168,8,30,null,'image1168');" onMouseOut="loi_swapimgrestore();MM_startTimeout();"><img name="image1168" src="../images/1168n.png" border="0" alt="Contact Us"></a><!--Navigation End -->
+    </div>
+</div>
+<!-- navigation end -->
+</div>
+
+<!-- content start -->
+<!--<div id="IEFixtocenter">-->
+<div id="RCcontentTable">
+
+	<div id="RCiframeTable">
+
+    	<table cellspacing="0" cellpadding="0" border="0" valign="top">
+        	<tr>
+            	<td valign="top">
+                	<iframe runat="server" frameBorder="0" marginHeight="0" marginWidth="0" scrolling="no" style="margin-top: 0px; background: transparent;" src="https://onlinebanking.rockcanyonbank.com/servlet/SLogin?template=/c/custom/rloginsc.vm" width="" height="" allowtransparency="true">
+                    </iframe>
+                </td>
+            </tr>
+			<tr>
+				<td class="iframeLinksTop">
+					<a href="https://webadmin.cavionplus.com/custom_apps/applications/cu1455/enrollmentapp.asp?InstID=1621" target="_blank">Enroll Now</a>
+				</td>
+			</tr>
+			<tr>
+				<td class="iframeLinks">
+					<a href="https://onlinebanking.rockcanyonbank.com/enroll.html" target="_blank">Security Update</a>
+				</td>
+			</tr>
+            <tr>
+				<td class="iframeLinks">
+					<a href="#" onclick="openWin()">Where do I enter my Password?</a>
+				</td>
+			</tr> 
+			
+			<tr>
+				<td class="iframeLinks">
+					<a href="https://onlinebanking.rockcanyonbank.com/servlet/SLogin?template=/c/login/sloginsc.vm&demo=yes" target="_blank">View Demo</a>
+				</td>
+			</tr>
+			<tr>
+				<td class="iframeHelpLink">
+					<a href="../asp/online.asp" target="_blank">Help <img src="../images/arrowSM.png"></a>
+				</td>
+			</tr>
+		</table>
+	</div>
+    
+        	<div id="RCbannerAd">
+		
+         	<div class="dynbanner"><div class="faderbox" id="faderbox"><div class="faderarticle" id="faderarticle0" name="faderarticle0"><img src="https://ig.libertyonline.net/ImageGallery/Custom/cu1455/Banner/RockCanyonBanner_plans.png" border="0"></div>
+<div class="faderarticle" id="faderarticle1" name="faderarticle1"><img src="https://ig.libertyonline.net/ImageGallery/Custom/cu1455/Banner/RockCanyonBannerAd_AgLendingSpec.png" border="0"></div>
+<div class="faderarticle" id="faderarticle2" name="faderarticle2"><img src="https://ig.libertyonline.net/ImageGallery/Custom/cu1455/Banner/MortgagaeBannerAd.png" border="0"></div>
+<div class="faderarticle" id="faderarticle3" name="faderarticle3"><img src="https://ig.libertyonline.net/ImageGallery/Custom/cu1455/Banner/SpanishForkBannerAd.png" border="0"></div>
+</div><script type="text/javascript">count = 4;
+setTimeout('init()', 500);</script></div>
+		
+    	</div>
+     
+  	<div id="RCContentBoxHome">
+ 
+		<div id="RCContentTopStripe">
+			<!--<a href="https://ig.libertyonline.net/ImageGallery/Custom/cu1455/PDFs/RCB_Property_Listing.pdf" target="_blank"><img src="../images/bankOwnedPropsArrow.png" width="97" height="43"></a>-->
+		</div>
+    	
+		<table width="950" cellpadding="0" cellspacing="0" border="0" valign="top" id="RCContentBoxTable">
+        	<tr>
+            	<td id="contentBoxLeft">
+					<table cellpadding="0" cellspacing="0" border="0" valign="top">
+						<tr>
+							<td id="contentBoxTopLeft" valign="top">
+								<table cellpadding="0" cellspacing="0" border="0" valign="top" id="QuickLinksTable">
+									<tr>
+										<td colspan="2" id="QuickLinksTitle">
+											Quick Links
+										</td>
+									</tr>
+									<tr>
+										<td class="quickLinksTopRow" valign="top">
+											<div class="qlLeftTop"><a href="/calculat.htm">Calculators</a></div><div class="qlRightTop"><a href="../asp/location.asp">Locations</a></div>
+										</td>
+									</tr>
+									<tr>
+										<td class="quickLinksCenterRow" valign="top">
+											<div class="qlLeftCenter"><a href="javascript:;" onclick="extLinkDisc('https://www.ordermychecks.com/login_a.jsp');">Check Reorder</a></div><div class="qlRightCenter"><a href="javascript:;" onclick="extLinkDisc('https://www.myaccountaccess.com/onlineCard/login.do?theme=elan1&loc=22072');">My Visa<sup>&reg;</sup></a></div>
+										</td>
+									</tr>
+									<tr>
+										<td class="quickLinksBottomRow" valign="top">
+											<div class="qlLeftBottom"><a href="javascript:;" onclick="extLinkDisc('http://moneypass.com');">Find Surcharge-<br />Free ATMs</a></div><div class="qlRightBottom"><a href="../asp/contact.asp">Contact Us</a></div>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td id="contentBoxBottomLeft">
+								<a href="javascript:;" onclick="extLinkDisc('https://online1.elancard.com/oad/begin?locationCode=22072');">
+								<img src="../images/spacer.gif" width="250" height="200" />
+								</a>
+							</td>
+						</tr>
+					</table>
+				</td>
+        			
+        		</td>
+        		<td id="contentBoxCenter" valign="top">
+					<div class="contentBoxTitle">
+						News You Should Know
+					</div>
+					<div id="messageBoxContent">
+        			                                    <p>&nbsp;</p>
+<p align="left"><strong><font size="3">FDIC Protection: Important Information on Coverage for Transaction Accounts.</font></strong><br />
+<br />
+<a href="/asp/products/product_1_1.asp"><font size="2" color="#0000ff">Click here</font></a><font size="2"> for more details</font>.</p>
+<p align="left">&nbsp;</p>
+<p align="left"><strong><font size="3">Don't let ID THEFT happen to you!</font> </strong><br />
+<br />
+<font size="2"><a href="/asp/services/service_4_3.asp"><font color="#0000ff">Learn more</font></a> about how to keep yourself safe.</font></p>
+                                					</div>
+        		</td>
+        		<td id="contentBoxRight" valign="top">
+        			<div class="contentBoxTitle">
+						Services With You in Mind
+					</div>
+					<div id="messageBoxContent">
+        			                                    <p align="left"><font size="2">Just because we're small and personal doesn't mean our online services are wimpy.</font></p>
+<ul>
+    <li>
+    <div align="left">
+    <p><font size="1"><a href="/asp/services/service_1_1.asp">Personal Online Banking and Bill Payment</a></font></p>
+    </div>
+    </li>
+    <li>
+    <div align="left">
+    <p><font size="1"><a href="/asp/services/service_1_4.asp">Quicken&reg; PFM Software Link</a></font></p>
+    </div>
+    </li>
+    <li>
+    <div align="left">
+    <p><font size="1"><a href="/asp/services/service_1_2.asp">Online Cash Management</a></font></p>
+    </div>
+    </li>
+    <li>
+    <div align="left">
+    <p><font size="1"><a href="/asp/services/service_4_1.asp">Personal</a> and <a href="/asp/services/service_4_2.asp">Business Loans</a></font></p>
+    </div>
+    </li>
+</ul>
+<p align="center"><font size="2"><strong><br />We know Business Service</strong></font></p>
+<p align="left"><font size="2">  Big, medium or small, we have the <a href="/asp/services/service_4_2.asp">loans</a>, <a href="/asp/services/service_3.asp">services</a>, and <a href="/asp/services/service_3_5.asp">tools</a> to help your business grow and succeed.</font></p>
+                                					</div>
+        		</td>
+        	</tr>
+        </table>
+		
+
+	<div id="footerContent">
+			<div id="footerCompliance">
+				<img src="../images/foot_ehl.gif" width="71" height="28"><img src="../images/FDIC.png" width="58" height="25">
+			</div>
+			<div id="footerText">
+				&copy Copyright 2012, Rock Canyon Bank &middot; <a href="../asp/legal.asp">Online Access Agreement</a> &middot; <a href="https://webadmin.cavionplus.com/ImageGallery/Custom/cu1455/PDFs/RCBPrivacyNotice.pdf">Privacy</a>
+			</div>
+    </div>
+</div>
+</div>
+<!-- content end -->
+
+<!-- mobile detect and redirect -->
+<script language="javascript">
+        var mobile = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/i.test(navigator.userAgent.toLowerCase()));
+        var query = location.search.substring(1);
+        if(mobile) {
+               if(query != "nomobile") { location.href='http://m.rockcanyonbank.com'; }
+        }
+</script>
+
+</body>
+</html>
+

@@ -3,7 +3,10 @@
 	position: relative;
 	height: auto;
 	width: auto;
+}
 
+.featured{
+	height: 100px;
 }
 .Green{
 	color: #02734A;
@@ -14,24 +17,33 @@
 	padding-bottom: 1%;
 }
 .title{
-	padding-top: 2%;
+	position: relative;
+	padding-top: 1.5%;
 	padding-left: 45%;
 	color: #02734A;
 }
 .Land{
 	padding-top: 100px;
+	padding-bottom: 15%;
 	position: relative;
-	background: url(../assets/LoLBlur.jpg) no-repeat center center fixed;
-	background-size: cover;
+	background: url(../assets/booboo.jpg) no-repeat center center fixed;
+	background-size:cover;
 	height: 60em;
+	padding-top: 0%;
+	background-color: #222222;
 }
 .quote{
-	padding-top: 1em;
-	padding-left: 7%;
-	color: #02734A;
+	padding-top: 4em;
+	padding-bottom: 10%;
+	padding-left: 20%;
+	color:white;
 	font-size: 17pt;
 	z-index: 3;
 }
+.game{
+	color: white;
+}
+
 .secondLine{
 	padding-left: 35px;
 }
@@ -40,12 +52,14 @@
 	font-size: 25pt;
 }
 .month{
-	padding-left: 20%;
+	padding-left: 10%;
 	padding-top: 3%;
-	font-size: 2em;
+	font-size: 1.75em;
+	color: white;
 }
 .lilPush{
 	padding-left: 1.5em;
+	height: 10%;
 }
 .First{
 	margin-top: -2%;
@@ -125,4 +139,25 @@
 .whateverScott{
 	background-color: #222222;
 	opacity: 1;
+}
+.sponsors{
+	background-color: #E4F7E1;
+	text-align: center;
+	font-size: 1.2em;
+}
+.signUp{
+	text-align: center;
+}
+.pics{
+	height: 200px;
+}
+.spons{
+	background-color: #E4F7E1;
+	height: 100px;
+	margin-top: auto;
+	margin-bottom: auto;
+}
+.part{
+	margin-top: 2%;
+	margin-bottom: auto;
 }
