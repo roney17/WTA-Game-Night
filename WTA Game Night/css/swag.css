@@ -1,3 +1,6 @@
+body{
+	text-align: center:
+	}
 .Logo
 {
 	position: relative;
@@ -21,6 +24,7 @@
 	padding-top: 1.5%;
 	padding-left: 45%;
 	color: #02734A;
+	text-align: left;
 }
 .Land{
 	padding-top: 100px;
@@ -70,6 +74,7 @@
 }
 .who{
 	padding-bottom: 7%;
+		
 }
 .big{
 	padding: 10% 0;
@@ -98,6 +103,7 @@
 	width: 70%;
 	font-size: 1.2em;
 	font-weight: 500;
+	background-color: #E4F7E1;
 }
 .napolean{
 	color: white;
@@ -107,20 +113,21 @@
 }
 .Second{
 	text-align: center;
+	background-color: white;
 }
 .Third{
-	padding-top: 3%;
-	margin-top: 5%;
 	text-align: center;
-	background-color: #E4F7E1;
+	background-color: white;
 }
 .where{
 	font-size: 1.35em;
+	background-color: white;
 }
 .Fourth{
 	text-align: center;
 	background-color: #E4F7E1;
 	padding-bottom: 3%;
+	margin-bottom: -3%;
 }
 .Fifth{
 	position: relative;
@@ -140,24 +147,28 @@
 	background-color: #222222;
 	opacity: 1;
 }
-.sponsors{
-	background-color: #E4F7E1;
-	text-align: center;
-	font-size: 1.2em;
-}
+
 .signUp{
 	text-align: center;
 }
-.pics{
-	height: 200px;
-}
-.spons{
+.spon1{
 	background-color: #E4F7E1;
-	height: 100px;
-	margin-top: auto;
-	margin-bottom: auto;
+	padding-top: 5%;
+	height: auto;	
 }
-.part{
-	margin-top: 2%;
-	margin-bottom: auto;
+.spon2{
+	background-color: #E4F7E1;
+	padding-top: 5%;
+	height: auto;	
+	padding-bottom: 5%;
+}
+.RCB{
+	height: 7em;
+}
+.WTA{
+	height: 5em;
+}
+.foot{
+	height: 5em;
+	background-color: #222222;
 }
