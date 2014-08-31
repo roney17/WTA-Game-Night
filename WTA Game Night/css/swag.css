@@ -1,13 +1,9 @@
-body{
-	text-align: center:
-	}
 .Logo
 {
 	position: relative;
 	height: auto;
 	width: auto;
 }
-
 .featured{
 	height: 100px;
 }
@@ -35,6 +31,7 @@ body{
 	height: 60em;
 	padding-top: 0%;
 	background-color: #222222;
+	margin-right: -15px;
 }
 .quote{
 	padding-top: 4em;
@@ -71,6 +68,7 @@ body{
 	text-align: center;
 	background-color: #E4F7E1;
 	font-size: 1.4em;
+	margin-right: -15px;
 }
 .who{
 	padding-bottom: 7%;
